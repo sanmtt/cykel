@@ -11,10 +11,10 @@ def distribute(p_dict, num_groups):
     """
     Fördela alla i grupper
 
-    TODO: Fixa så att man har en person från förra gruppen som kommer till nästa. 
+    TODO: Fixa så att man har en person från förra gruppen som kommer till nästa. Kolla om det är svårt att bestämma host.
 
-    :param p_dict:
-    :param num_groups:
+    :param p_dict: Personer och vilka de har träffat
+    :param num_groups: Antal grupper
     :return:
     """
     for _ in range(100):
@@ -24,7 +24,7 @@ def distribute(p_dict, num_groups):
         people_list = [key for key in p_dict.keys()]
         random.shuffle(people_list)
         for p in people_list:
-            exc = p_dict[p]
+            exc = p_dict[p]  # Personer som inte kan ingå i samma grupp
             added = False
             start_i = i
             while not added and not failed:
@@ -32,7 +32,7 @@ def distribute(p_dict, num_groups):
                 if not any([x in round[i] for x in exc]) and not added:
                     round[i].append(p)
                     added = True
-                elif i == start_i:
+                elif i == start_i:  # Fail efter att ha testat alla grupper
                     failed = True
         if not failed:
             return round
@@ -52,6 +52,7 @@ def make_groups(people: list, number_of_groups: list):
                 failed = True
                 break
 
+            # Lägg till personer som inte kan ingå i samma runda
             for g in round:
                 for p1 in g:
                     for p2 in g:
@@ -69,8 +70,9 @@ if __name__ == '__main__':
     failed = True
     while failed:
         failed = False
-        round_list = make_groups([i for i in range(12)], [4, 4, 4])
+        round_list = make_groups([i for i in range(12)], [3, 3, 3, 3])
         for round in round_list:
+            # Uteslut lista om den innehåller för små grupper.
             for group in round:
                 if len(group) < 3:
                     failed = True
