@@ -8,6 +8,15 @@ import random
 
 
 def distribute(p_dict, num_groups):
+    """
+    Fördela alla i grupper
+
+    TODO: Fixa så att man har en person från förra gruppen som kommer till nästa. 
+
+    :param p_dict:
+    :param num_groups:
+    :return:
+    """
     for _ in range(100):
         round = [[] for _ in range(num_groups)]
         failed = False
@@ -37,7 +46,7 @@ def make_groups(people: list, number_of_groups: list):
         for p in people:
             p_dict.update({p: []})
         for num_groups in number_of_groups:
-            round =distribute(p_dict, num_groups)  # Gör en runda
+            round = distribute(p_dict, num_groups)  # Gör en runda
 
             if not round:
                 failed = True
@@ -48,7 +57,6 @@ def make_groups(people: list, number_of_groups: list):
                     for p2 in g:
                         if p1 != p2:
                             p_dict[p1].append(p2)
-
 
             group_list.append(round)
             print(round)
