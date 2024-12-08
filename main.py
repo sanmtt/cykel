@@ -37,10 +37,7 @@ def make_groups(people: list, number_of_groups: list):
         for p in people:
             p_dict.update({p: []})
         for num_groups in number_of_groups:
-            ppg = int(len(people) / num_groups)
-            unassigned = copy(p_dict)
-            round = []
-            round =distribute(p_dict, num_groups)
+            round =distribute(p_dict, num_groups)  # Gör en runda
 
             if not round:
                 failed = True
@@ -61,7 +58,14 @@ def make_groups(people: list, number_of_groups: list):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-
-    print(make_groups([i for i in range(12)], [4, 4, 3]))
+    failed = True
+    while failed:
+        failed = False
+        round_list = make_groups([i for i in range(12)], [4, 4, 4])
+        for round in round_list:
+            for group in round:
+                if len(group) < 3:
+                    failed = True
+    print(round_list)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
